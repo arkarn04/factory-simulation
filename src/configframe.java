@@ -277,7 +277,7 @@ public class configframe extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(addm.getTextField().getText().equals(""))
 				{
-					JOptionPane.showMessageDialog(null, "Enter the machine ID","ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Enter the machine name","ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{
@@ -298,7 +298,7 @@ public class configframe extends JFrame {
 						mttf_int=mttf_int/0;
 						
 					}
-					if((Integer)addm.getSpinner_1().getValue()<1||(Integer)addm.getSpinner_1().getValue()>1000)
+					if(mttf_int<1||mttf_int>1000)
 					{
 						check=2;
 						mttf_int=mttf_int/0;
@@ -349,13 +349,21 @@ public class configframe extends JFrame {
 					JOptionPane.showMessageDialog(null, "Enter the adjuster ID","ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 				else
-				{
-					
+				{	
+					int check=0, t=1;	
 					try{
 						if((Integer)addaj.getSpinner_1().getValue()<1||(Integer)addaj.getSpinner_1().getValue()>1000)
 						{
-							int t=2;
+							check=2;
 							t=t/0;
+						}
+						for(int i=0; i<adj_group.size(); i++)
+						{
+							if(addaj.getTextField().getText().equals(adj_group.get(i).getId()))
+							{
+								check=3;
+								t=t/0;
+							}
 						}
 						addaj.getModel().addElement(addaj.getComboBox().getSelectedItem().toString());
 						JList <String> list = addaj.getTemp_machine_name();
@@ -374,7 +382,12 @@ public class configframe extends JFrame {
 					}
 					catch(Exception p)
 					{
-						JOptionPane.showMessageDialog(null, "Enter the Quantity in the specified range","ERROR",JOptionPane.ERROR_MESSAGE);
+						if(check==2){
+							JOptionPane.showMessageDialog(null, "Enter the Quantity in the specified range","ERROR",JOptionPane.ERROR_MESSAGE);	
+						}
+						else if(check==3){
+							JOptionPane.showMessageDialog(null, "An adjuster with the same Id already exists!","ERROR",JOptionPane.ERROR_MESSAGE);
+						}
 					}
 					
 				}
